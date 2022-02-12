@@ -4,8 +4,7 @@ import styleInput from './common/styles/UpperBlockContainer.module.css'
 import styleLB from './common/styles/LowerBlockContainer.module.css'
 import {DisplayBlock} from './displayBlock/DisplayBlock'
 import {Button} from './button/Button'
-import {StartValueBlock} from "./valueBlock/StartValueBlock";
-import {MaxValueBlock} from "./valueBlock/MaxValueBlock";
+import {ValueBlock} from "./valueBlock/ValueBlock";
 
 export const App = () => {
 
@@ -18,6 +17,19 @@ export const App = () => {
     let [buttonSetDisable, setButtonSetDisable] = useState<boolean>(true)
     let [buttonIncDisable, setButtonIncDisable] = useState<boolean>(true)
     let [buttonResetDisable, setButtonResetDisable] = useState<boolean>(true)
+
+    let inputs = {
+        Max: {
+            id: 1,
+            title: 'Max Value:',
+            value: maxValue
+        },
+        Start: {
+            id: 2,
+            title: 'Start Value:',
+            value: startValue
+        }
+    }
 
     useEffect(() => {
         let newDisplay = sessionStorage.getItem('Display')
@@ -84,27 +96,35 @@ export const App = () => {
         <div className={style.appContainer}>
             <div className={style.blockContainer}>
                 <div className={styleInput.container}>
-                    <MaxValueBlock
+                    <ValueBlock
+                        id={inputs.Max.id}
+                        title={inputs.Max.title}
+                        value={inputs.Max.value}
                         error={error}
                         errorInput={errorInputMax}
                         startValue={startValue}
                         maxValue={maxValue}
+                        setStartValue={setStartValue}
                         setMaxValue={setMaxValue}
                         setErrorInputStart={setErrorInputStart}
-                        setErrorInput={setErrorInputMax}
+                        setErrorInputMax={setErrorInputMax}
                         setDisplay={setDisplay}
                         setError={setError}
                         setButtonSetDisable={setButtonSetDisable}
                         setButtonIncDisable={setButtonIncDisable}
                         setButtonResetDisable={setButtonResetDisable}
                     />
-                    <StartValueBlock
+                    <ValueBlock
+                        id={inputs.Start.id}
+                        title={inputs.Start.title}
+                        value={inputs.Start.value}
                         error={error}
                         errorInput={errorInputStart}
                         startValue={startValue}
                         maxValue={maxValue}
                         setStartValue={setStartValue}
-                        setErrorInput={setErrorInputStart}
+                        setMaxValue={setMaxValue}
+                        setErrorInputStart={setErrorInputStart}
                         setErrorInputMax={setErrorInputMax}
                         setDisplay={setDisplay}
                         setError={setError}
