@@ -1,0 +1,12 @@
+.button {
+    border-radius: 10px;
+    background-color: aqua;
+    width: 150px;
+    height: 50px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.maxValue {
+    color: red;
+}

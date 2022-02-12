@@ -1,0 +1,19 @@
+.appContainer {
+    height: 100vh;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.blockContainer {
+    border: 5px solid;
+    border-radius: 30px;
+    color: aqua;
+    height: 60vh;
+    width: 35vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
