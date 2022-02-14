@@ -1,10 +1,6 @@
-import React, {useEffect, useState} from 'react'
-import style from './App.module.css'
-import styleInput from './common/styles/UpperBlockContainer.module.css'
-import styleLB from './common/styles/LowerBlockContainer.module.css'
-import {DisplayBlock} from './displayBlock/DisplayBlock'
-import {Button} from './button/Button'
-import {ValueBlock} from "./valueBlock/ValueBlock";
+import React, {useEffect, useState} from 'react';
+import style from './App.module.css';
+import {InputOutputBlock} from "./inputOutputBlock/InputOutputBlock";
 
 export const App = () => {
 
@@ -81,69 +77,54 @@ export const App = () => {
 
     return (
         <div className={style.appContainer}>
-            <div className={style.blockContainer}>
-                <div className={styleInput.container}>
-                    <ValueBlock
-                        title={'Max Value:'}
-                        value={maxValue}
-                        error={error}
-                        errorInput={errorInputMax}
-                        startValue={startValue}
-                        maxValue={maxValue}
-                        setStartValue={setStartValue}
-                        setMaxValue={setMaxValue}
-                        setErrorInputStart={setErrorInputStart}
-                        setErrorInputMax={setErrorInputMax}
-                        setDisplay={setDisplay}
-                        setError={setError}
-                        setButtonSetDisable={setButtonSetDisable}
-                        setButtonIncDisable={setButtonIncDisable}
-                        setButtonResetDisable={setButtonResetDisable}
-                    />
-                    <ValueBlock
-                        title={'Start Value:'}
-                        value={startValue}
-                        error={error}
-                        errorInput={errorInputStart}
-                        startValue={startValue}
-                        maxValue={maxValue}
-                        setStartValue={setStartValue}
-                        setMaxValue={setMaxValue}
-                        setErrorInputStart={setErrorInputStart}
-                        setErrorInputMax={setErrorInputMax}
-                        setDisplay={setDisplay}
-                        setError={setError}
-                        setButtonSetDisable={setButtonSetDisable}
-                        setButtonIncDisable={setButtonIncDisable}
-                        setButtonResetDisable={setButtonResetDisable}
-                    />
-                </div>
-                <div className={styleLB.lowerBlock}>
-                    <Button
-                        title={'SET'}
-                        onClickHandler={onClickHandlerForSetButton}
-                        disable={buttonSetDisable}
-                    />
-                </div>
-            </div>
-            <div className={style.blockContainer}>
-                <DisplayBlock
-                    display={display}
-                    error={error}
-                />
-                <div className={styleLB.lowerBlock}>
-                    <Button
-                        title={'INC'}
-                        onClickHandler={onClickHandlerForIncButton}
-                        disable={buttonIncDisable}
-                    />
-                    <Button
-                        title={'RESET'}
-                        onClickHandler={onClickHandlerForResetButton}
-                        disable={buttonResetDisable}
-                    />
-                </div>
-            </div>
+            <InputOutputBlock
+                title={'LEFT BLOCK'}
+                startValue={startValue}
+                maxValue={maxValue}
+                setStartValue={setStartValue}
+                setMaxValue={setMaxValue}
+                errorInputStart={errorInputStart}
+                errorInputMax={errorInputMax}
+                setErrorInputStart={setErrorInputStart}
+                setErrorInputMax={setErrorInputMax}
+                display={display}
+                setDisplay={setDisplay}
+                error={error}
+                setError={setError}
+                buttonSetDisable={buttonSetDisable}
+                buttonIncDisable={buttonIncDisable}
+                buttonResetDisable={buttonResetDisable}
+                setButtonSetDisable={setButtonSetDisable}
+                setButtonIncDisable={setButtonIncDisable}
+                setButtonResetDisable={setButtonResetDisable}
+                onClickHandlerForSetButton={onClickHandlerForSetButton}
+                onClickHandlerForIncButton={onClickHandlerForIncButton}
+                onClickHandlerForResetButton={onClickHandlerForResetButton}
+            />
+            <InputOutputBlock
+                title={'RIGHT BLOCK'}
+                startValue={startValue}
+                maxValue={maxValue}
+                setStartValue={setStartValue}
+                setMaxValue={setMaxValue}
+                errorInputStart={errorInputStart}
+                errorInputMax={errorInputMax}
+                setErrorInputStart={setErrorInputStart}
+                setErrorInputMax={setErrorInputMax}
+                display={display}
+                setDisplay={setDisplay}
+                error={error}
+                setError={setError}
+                buttonSetDisable={buttonSetDisable}
+                buttonIncDisable={buttonIncDisable}
+                buttonResetDisable={buttonResetDisable}
+                setButtonSetDisable={setButtonSetDisable}
+                setButtonIncDisable={setButtonIncDisable}
+                setButtonResetDisable={setButtonResetDisable}
+                onClickHandlerForSetButton={onClickHandlerForSetButton}
+                onClickHandlerForIncButton={onClickHandlerForIncButton}
+                onClickHandlerForResetButton={onClickHandlerForResetButton}
+            />
         </div>
     )
 }
