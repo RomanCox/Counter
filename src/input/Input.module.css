@@ -1,35 +1,42 @@
-.container {
-    border-radius: 20px;
+.inputsContainer {
     width: 100%;
-    height: 45%;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
 }
 
 .title {
-    font-size: 38pt;
-    margin-left: 10px;
+    font-size: 30pt;
+    margin-left: 3%;
+    color: aqua;
+}
+
+.errorTitle {
+    font-size: 30pt;
+    margin-left: 3%;
+    color: #b00000;
 }
 
 .input {
-    margin-right: 10px;
-    background-color: #ffffff;
+    background-color: #c8fff5;
     border: 3px solid aqua;
     border-radius: 5px;
+    margin-right: 3%;
     width: 30%;
     height: 50px;
     text-align: center;
     font-size: 38px;
+    color: #005e5e;
 }
 
-.error {
-    margin-right: 10px;
+.errorInput {
     background-color: #d26767;
-    border: 5px solid #b00000;
+    border-color: #b00000;
     border-radius: 5px;
+    margin-right: 3%;
     width: 30%;
     height: 50px;
     text-align: center;
     font-size: 38px;
+    color: #b00000;
 }

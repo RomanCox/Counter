@@ -1,0 +1,11 @@
+.inputOutputBlock {
+    border: 5px solid;
+    color: aqua;
+    border-radius: 30px;
+    height: 60vh;
+    width: 35vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
