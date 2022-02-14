@@ -2,7 +2,6 @@ import React, {ChangeEvent} from 'react';
 import style from './Input.module.css'
 
 type propsType = {
-    id: number,
     title: string,
     value: number,
     error: number,
@@ -24,7 +23,7 @@ export const ValueBlock = (props: propsType) => {
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
 
-        if (props.id === 1) {
+        if (props.title === 'Max Value:') {
             props.setMaxValue(Number(event.currentTarget.value))
             props.setButtonIncDisable(true)
             props.setButtonResetDisable(true)
@@ -105,7 +104,7 @@ export const ValueBlock = (props: propsType) => {
                 className={props.errorInput ? style.error : style.input}
                 type={"number"}
                 onChange={onChangeHandler}
-                value={props.id === 1 ? props.maxValue : props.startValue}
+                value={props.title === 'Max Value:' ? props.maxValue : props.startValue}
             />
         </div>
     )

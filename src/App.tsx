@@ -18,19 +18,6 @@ export const App = () => {
     let [buttonIncDisable, setButtonIncDisable] = useState<boolean>(true)
     let [buttonResetDisable, setButtonResetDisable] = useState<boolean>(true)
 
-    let inputs = {
-        Max: {
-            id: 1,
-            title: 'Max Value:',
-            value: maxValue
-        },
-        Start: {
-            id: 2,
-            title: 'Start Value:',
-            value: startValue
-        }
-    }
-
     useEffect(() => {
         let newDisplay = sessionStorage.getItem('Display')
         let errorAsString = sessionStorage.getItem('Error')
@@ -97,9 +84,8 @@ export const App = () => {
             <div className={style.blockContainer}>
                 <div className={styleInput.container}>
                     <ValueBlock
-                        id={inputs.Max.id}
-                        title={inputs.Max.title}
-                        value={inputs.Max.value}
+                        title={'Max Value:'}
+                        value={maxValue}
                         error={error}
                         errorInput={errorInputMax}
                         startValue={startValue}
@@ -115,9 +101,8 @@ export const App = () => {
                         setButtonResetDisable={setButtonResetDisable}
                     />
                     <ValueBlock
-                        id={inputs.Start.id}
-                        title={inputs.Start.title}
-                        value={inputs.Start.value}
+                        title={'Start Value:'}
+                        value={startValue}
                         error={error}
                         errorInput={errorInputStart}
                         startValue={startValue}
