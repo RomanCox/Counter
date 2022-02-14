@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './Display.module.css'
-import displayStyle from "../displayBlock/Display.module.css";
+
 
 type DisplayPropsType = {
     display: string,
@@ -13,10 +13,10 @@ export const Display = (props: DisplayPropsType) => {
 
     return (
         <div className={style.displayContainer}>
-            <span className={props.error === 0 ? `${displayStyle.text} ${displayStyle.normal}` :
-                props.error === 1 ? `${displayStyle.text} ${displayStyle.error}` :
-                    props.error === 2 ? `${displayStyle.number} ${displayStyle.normal}` :
-                        `${displayStyle.number} ${displayStyle.error}`
+            <span className={props.error === 0 ? `${style.displayText}` :
+                props.error === 1 ? `${style.displayTextError}` :
+                    props.error === 2 ? `${style.displayNumber}` :
+                        `${style.displayNumberError}`
             }>
                 {props.error < 2 ? props.display : displayNumber}
             </span>
