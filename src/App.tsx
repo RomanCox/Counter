@@ -1,19 +1,44 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import style from './App.module.css';
 import {InputOutputBlock} from "./inputOutputBlock/InputOutputBlock";
+import {displayAC, errorAC, InputsOutputsReducer, maxValueAC, startValueAC} from "./reducers/InputsOutputsReducer";
+import {ButtonsReducer, incButtonAC, resetButtonAC, setButtonAC} from "./reducers/ButtonsReducer";
+
+export type buttonTitleType = 'SET' | 'INC' | 'RESET'
+export type buttonType = {
+    title: buttonTitleType,
+    disable: boolean
+}
+export type buttonsType = {
+    set: buttonType,
+    inc: buttonType,
+    reset: buttonType
+}
+export type errorType = 0 | 1 | 2 | 3;
+export type inputOutputType = {
+    title: string,
+    value: string,
+    error: errorType
+}
+export type inputsOutputsType = {
+    start: inputOutputType,
+    max: inputOutputType,
+    display: inputOutputType
+}
 
 export const App = () => {
 
-    let [startValue, setStartValue] = useState<number>(0)
-    let [maxValue, setMaxValue] = useState<number>(0)
-    let [errorInputStart, setErrorInputStart] = useState<boolean>(false)
-    let [errorInputMax, setErrorInputMax] = useState<boolean>(false)
-    let [error, setError] = useState<number>(0)
-    let [display, setDisplay] = useState<string>("Enter values & press 'SET'")
-    let [buttonSetDisable, setButtonSetDisable] = useState<boolean>(true)
-    let [buttonIncDisable, setButtonIncDisable] = useState<boolean>(true)
-    let [buttonResetDisable, setButtonResetDisable] = useState<boolean>(true)
-
+    let [buttons, buttonsDispatch] = useReducer(ButtonsReducer, {
+        set: {title: 'SET', disable: true},
+        inc: {title: 'INC', disable: true},
+        reset: {title: 'RESET', disable: true}
+    })
+    let [inputsOutputs, inputsOutputsDispatch] = useReducer(InputsOutputsReducer, {
+        start: {title: 'START VALUE:', value: '0', error: 0},
+        max: {title: 'MAX VALUE:', value: '0', error: 0},
+        display: {title: 'DISPLAY', value: "Enter values & press 'SET'", error: 0}
+    })
+    
     useEffect(() => {
         let newDisplay = sessionStorage.getItem('Display')
         let errorAsString = sessionStorage.getItem('Error')
@@ -31,96 +56,68 @@ export const App = () => {
             buttonIncDisableAsString &&
             buttonResetDisableAsString
         ) {
-            setDisplay(newDisplay)
-            setError(JSON.parse(errorAsString))
-            setStartValue(JSON.parse(startValueAsString))
-            setMaxValue(JSON.parse(maxValueAsString))
-            setButtonSetDisable(JSON.parse(buttonSetDisableAsString))
-            setButtonIncDisable(JSON.parse(buttonIncDisableAsString))
-            setButtonResetDisable(JSON.parse(buttonResetDisableAsString))
+            inputsOutputsDispatch(displayAC(newDisplay))
+            inputsOutputsDispatch(errorAC(JSON.parse(errorAsString)))
+            inputsOutputsDispatch(startValueAC(JSON.parse(startValueAsString)))
+            inputsOutputsDispatch(maxValueAC(JSON.parse(maxValueAsString)))
+            buttonsDispatch(setButtonAC(JSON.parse(buttonSetDisableAsString)))
+            buttonsDispatch(incButtonAC(JSON.parse(buttonIncDisableAsString)))
+            buttonsDispatch(resetButtonAC(JSON.parse(buttonResetDisableAsString)))
         }
     }, [])
 
     useEffect(() => {
-        sessionStorage.setItem('Display', display)
-        sessionStorage.setItem('Error', JSON.stringify(error))
-        sessionStorage.setItem('Start', JSON.stringify(startValue))
-        sessionStorage.setItem('Max', JSON.stringify(maxValue))
-        sessionStorage.setItem('Set', JSON.stringify(buttonSetDisable))
-        sessionStorage.setItem('Inc', JSON.stringify(buttonIncDisable))
-        sessionStorage.setItem('Reset', JSON.stringify(buttonResetDisable))
-    }, [display, startValue, maxValue])
+        sessionStorage.setItem('Display', inputsOutputs.display.value)
+        sessionStorage.setItem('Error', JSON.stringify(inputsOutputs.display.error))
+        sessionStorage.setItem('Start', JSON.stringify(inputsOutputs.start.value))
+        sessionStorage.setItem('Max', JSON.stringify(inputsOutputs.max.value))
+        sessionStorage.setItem('Set', JSON.stringify(buttons.set.disable))
+        sessionStorage.setItem('Inc', JSON.stringify(buttons.inc.disable))
+        sessionStorage.setItem('Reset', JSON.stringify(buttons.reset.disable))
+    }, [inputsOutputs.display.value, inputsOutputs.start.value, inputsOutputs.max.value])
 
     const onClickHandlerForSetButton = () => {
-        setDisplay(JSON.stringify(startValue))
-        setError(2)
-        setButtonSetDisable(true)
-        setButtonIncDisable(false)
+        inputsOutputsDispatch(errorAC(2))
+        inputsOutputsDispatch(displayAC(inputsOutputs.start.value))
+        buttonsDispatch(setButtonAC(true))
+        buttonsDispatch(incButtonAC(false))
     }
 
     const onClickHandlerForIncButton = () => {
-        setButtonResetDisable(false)
-        let displayNumber = Number(display) + 1
-        setDisplay(String(displayNumber))
-        if (Number(display) + 1 === Number(maxValue)) {
-            setError(3)
-            setButtonIncDisable(true)
+        buttonsDispatch(resetButtonAC(false))
+        let displayNumber = Number(inputsOutputs.display.value) + 1
+        inputsOutputsDispatch(displayAC(String(displayNumber)))
+        if (displayNumber === Number(inputsOutputs.max.value)) {
+            inputsOutputsDispatch(errorAC(3))
+            buttonsDispatch(incButtonAC(true))
         }
     }
 
     const onClickHandlerForResetButton = () => {
-        setDisplay(JSON.stringify(startValue))
-        setError(2)
-        setButtonIncDisable(false)
-        setButtonResetDisable(true)
+        inputsOutputsDispatch(displayAC(inputsOutputs.start.value))
+        inputsOutputsDispatch(errorAC(2))
+        buttonsDispatch(incButtonAC(false))
+        buttonsDispatch(resetButtonAC(true))
     }
 
     return (
         <div className={style.appContainer}>
             <InputOutputBlock
-                title={'LEFT BLOCK'}
-                startValue={startValue}
-                maxValue={maxValue}
-                setStartValue={setStartValue}
-                setMaxValue={setMaxValue}
-                errorInputStart={errorInputStart}
-                errorInputMax={errorInputMax}
-                setErrorInputStart={setErrorInputStart}
-                setErrorInputMax={setErrorInputMax}
-                display={display}
-                setDisplay={setDisplay}
-                error={error}
-                setError={setError}
-                buttonSetDisable={buttonSetDisable}
-                buttonIncDisable={buttonIncDisable}
-                buttonResetDisable={buttonResetDisable}
-                setButtonSetDisable={setButtonSetDisable}
-                setButtonIncDisable={setButtonIncDisable}
-                setButtonResetDisable={setButtonResetDisable}
+                title={inputsOutputs.start.title + inputsOutputs.max.title}
+                inputsOutputs={inputsOutputs}
+                inputsOutputsDispatch={inputsOutputsDispatch}
+                buttons={buttons}
+                buttonsDispatch={buttonsDispatch}
                 onClickHandlerForSetButton={onClickHandlerForSetButton}
                 onClickHandlerForIncButton={onClickHandlerForIncButton}
                 onClickHandlerForResetButton={onClickHandlerForResetButton}
             />
             <InputOutputBlock
-                title={'RIGHT BLOCK'}
-                startValue={startValue}
-                maxValue={maxValue}
-                setStartValue={setStartValue}
-                setMaxValue={setMaxValue}
-                errorInputStart={errorInputStart}
-                errorInputMax={errorInputMax}
-                setErrorInputStart={setErrorInputStart}
-                setErrorInputMax={setErrorInputMax}
-                display={display}
-                setDisplay={setDisplay}
-                error={error}
-                setError={setError}
-                buttonSetDisable={buttonSetDisable}
-                buttonIncDisable={buttonIncDisable}
-                buttonResetDisable={buttonResetDisable}
-                setButtonSetDisable={setButtonSetDisable}
-                setButtonIncDisable={setButtonIncDisable}
-                setButtonResetDisable={setButtonResetDisable}
+                title={inputsOutputs.display.title}
+                inputsOutputs={inputsOutputs}
+                inputsOutputsDispatch={inputsOutputsDispatch}
+                buttons={buttons}
+                buttonsDispatch={buttonsDispatch}
                 onClickHandlerForSetButton={onClickHandlerForSetButton}
                 onClickHandlerForIncButton={onClickHandlerForIncButton}
                 onClickHandlerForResetButton={onClickHandlerForResetButton}

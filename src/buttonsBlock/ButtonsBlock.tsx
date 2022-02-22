@@ -1,40 +1,39 @@
 import React from 'react'
 import style from './ButtonsBlock.module.css'
 import {Button} from "../button/Button";
+import {buttonsType} from "../App";
 
 type ButtonsBlockPropsType = {
     title: string,
     onClickHandlerForSetButton: () => void,
     onClickHandlerForIncButton: () => void,
     onClickHandlerForResetButton: () => void,
-    buttonSetDisable: boolean,
-    buttonIncDisable: boolean,
-    buttonResetDisable: boolean,
+    buttons: buttonsType,
 }
 export const ButtonsBlock = (props: ButtonsBlockPropsType) => {
 
-    let buttons = ['SET', 'INC', 'RESET']
-
-    if (props.title === 'SET') {
+    if (props.title === props.buttons.set.title) {
         return (
             <div className={style.lowerBlock}>
                 <Button
-                    title={buttons[0]}
+                    title={props.buttons.set.title}
                     onClickHandler={props.onClickHandlerForSetButton}
-                    disable={props.buttonSetDisable}/>
+                    disable={props.buttons.set.disable}
+                />
             </div>
         )
     } else {
         return (
             <div className={style.lowerBlock}>
-                <Button title={buttons[1]}
+                <Button
+                        title={props.buttons.inc.title}
                         onClickHandler={props.onClickHandlerForIncButton}
-                        disable={props.buttonIncDisable}
+                        disable={props.buttons.inc.disable}
                 />
                 <Button
-                    title={buttons[2]}
+                    title={props.buttons.reset.title}
                     onClickHandler={props.onClickHandlerForResetButton}
-                    disable={props.buttonResetDisable}
+                    disable={props.buttons.reset.disable}
                 />
             </div>
         )

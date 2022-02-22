@@ -2,27 +2,14 @@ import React from 'react';
 import style from './InputOutputBlock.module.css';
 import {DataBlock} from "../dataBlock/DataBlock";
 import {ButtonsBlock} from "../buttonsBlock/ButtonsBlock";
+import {buttonsType, inputsOutputsType} from "../App";
 
 type InputOutputBlockPropsType = {
     title: string,
-    startValue: number,
-    maxValue: number,
-    setStartValue: (startValue: number) => void,
-    setMaxValue: (maxValue: number) => void,
-    errorInputStart: boolean,
-    errorInputMax: boolean,
-    setErrorInputStart: (errorInputStart: boolean) => void,
-    setErrorInputMax: (errorInputMax: boolean) => void,
-    display: string,
-    setDisplay: (display: string) => void,
-    error: number,
-    setError: (error: number) => void,
-    buttonSetDisable: boolean,
-    buttonIncDisable: boolean,
-    buttonResetDisable: boolean,
-    setButtonSetDisable: (buttonSetDisable: boolean) => void,
-    setButtonIncDisable: (buttonIncDisable: boolean) => void,
-    setButtonResetDisable: (buttonResetDisable: boolean) => void,
+    inputsOutputs: inputsOutputsType,
+    inputsOutputsDispatch: (value: any) => void,
+    buttons: buttonsType,
+    buttonsDispatch: (value: any) => void,
     onClickHandlerForSetButton: () => void,
     onClickHandlerForIncButton: () => void,
     onClickHandlerForResetButton: () => void,
@@ -30,35 +17,21 @@ type InputOutputBlockPropsType = {
 
 export const InputOutputBlock = (props: InputOutputBlockPropsType) => {
 
-    if (props.title === 'LEFT BLOCK') {
+    if (props.title !== props.inputsOutputs.display.title) {
         return (
             <div className={style.inputOutputBlock}>
                 <DataBlock
                     title={'INPUT'}
-                    startValue={props.startValue}
-                    maxValue={props.maxValue}
-                    setStartValue={props.setStartValue}
-                    setMaxValue={props.setMaxValue}
-                    errorInputStart={props.errorInputStart}
-                    errorInputMax={props.errorInputMax}
-                    setErrorInputStart={props.setErrorInputStart}
-                    setErrorInputMax={props.setErrorInputMax}
-                    display={props.display}
-                    setDisplay={props.setDisplay}
-                    error={props.error}
-                    setError={props.setError}
-                    setButtonSetDisable={props.setButtonSetDisable}
-                    setButtonIncDisable={props.setButtonIncDisable}
-                    setButtonResetDisable={props.setButtonResetDisable}
+                    inputsOutputs={props.inputsOutputs}
+                    inputsOutputsDispatch={props.inputsOutputsDispatch}
+                    buttonsDispatch={props.buttonsDispatch}
                 />
                 <ButtonsBlock
-                    title={'SET'}
+                    title={props.buttons.set.title}
                     onClickHandlerForSetButton={props.onClickHandlerForSetButton}
                     onClickHandlerForIncButton={props.onClickHandlerForIncButton}
                     onClickHandlerForResetButton={props.onClickHandlerForResetButton}
-                    buttonSetDisable={props.buttonSetDisable}
-                    buttonIncDisable={props.buttonIncDisable}
-                    buttonResetDisable={props.buttonResetDisable}
+                    buttons={props.buttons}
                 />
             </div>
         )
@@ -67,30 +40,16 @@ export const InputOutputBlock = (props: InputOutputBlockPropsType) => {
             <div className={style.inputOutputBlock}>
                 <DataBlock
                     title={'OUTPUT'}
-                    startValue={props.startValue}
-                    maxValue={props.maxValue}
-                    setStartValue={props.setStartValue}
-                    setMaxValue={props.setMaxValue}
-                    errorInputStart={props.errorInputStart}
-                    errorInputMax={props.errorInputMax}
-                    setErrorInputStart={props.setErrorInputStart}
-                    setErrorInputMax={props.setErrorInputMax}
-                    display={props.display}
-                    setDisplay={props.setDisplay}
-                    error={props.error}
-                    setError={props.setError}
-                    setButtonSetDisable={props.setButtonSetDisable}
-                    setButtonIncDisable={props.setButtonIncDisable}
-                    setButtonResetDisable={props.setButtonResetDisable}
+                    inputsOutputs={props.inputsOutputs}
+                    inputsOutputsDispatch={props.inputsOutputsDispatch}
+                    buttonsDispatch={props.buttonsDispatch}
                 />
                 <ButtonsBlock
-                    title={'INC+RESET'}
+                    title={props.buttons.inc.title + props.buttons.reset.title}
                     onClickHandlerForSetButton={props.onClickHandlerForSetButton}
                     onClickHandlerForIncButton={props.onClickHandlerForIncButton}
                     onClickHandlerForResetButton={props.onClickHandlerForResetButton}
-                    buttonSetDisable={props.buttonSetDisable}
-                    buttonIncDisable={props.buttonIncDisable}
-                    buttonResetDisable={props.buttonResetDisable}
+                    buttons={props.buttons}
                 />
             </div>
         )
