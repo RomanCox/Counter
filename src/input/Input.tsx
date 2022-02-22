@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import style from './Input.module.css';
-import {inputsOutputsType} from "../App";
+import {inputsOutputType} from "../App";
 import {incButtonAC, resetButtonAC, setButtonAC} from "../reducers/ButtonsReducer";
 import {
     displayAC,
@@ -9,94 +9,90 @@ import {
     errorInputStartAC,
     maxValueAC,
     startValueAC
-} from "../reducers/InputsOutputsReducer";
-
+} from "../reducers/InputsOutputReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {rootReducerType} from "../store/store";
 
 type InputPropsType = {
     title: string,
     value: string,
     errorInput: number,
-    inputsOutputs: inputsOutputsType,
-    inputsOutputsDispatch: (value: any) => void,
-    buttonsDispatch: (value: any) => void,
 }
 
 export const Input = (props: InputPropsType) => {
-
+    let dispatch = useDispatch();
+    let inputsOutput = useSelector<rootReducerType, inputsOutputType>(state => state.InputsOutput)
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
 
         if (props.title === 'MAX VALUE:') {
-            props.inputsOutputsDispatch(maxValueAC(event.currentTarget.value))
-            props.buttonsDispatch(incButtonAC(true))
-            props.buttonsDispatch(resetButtonAC(true))
-
+            dispatch(maxValueAC(event.currentTarget.value))
+            dispatch(incButtonAC(true))
+            dispatch(resetButtonAC(true))
             if (Number(event.currentTarget.value) < 0) {
-                props.inputsOutputsDispatch(displayAC('Enter correct values'))
-                props.inputsOutputsDispatch(errorAC(1))
-                props.inputsOutputsDispatch(errorInputMaxAC(1))
-                props.buttonsDispatch(setButtonAC(true))
-
+                dispatch(displayAC('Enter correct values'))
+                dispatch(errorAC(1))
+                dispatch(errorInputMaxAC(1))
+                dispatch(setButtonAC(true))
             } else {
                 if (Number(event.currentTarget.value) === 0) {
-                    props.inputsOutputsDispatch(displayAC('Enter correct values'))
-                    props.inputsOutputsDispatch(errorAC(1))
-                    props.inputsOutputsDispatch(errorInputMaxAC(1))
-                    props.buttonsDispatch(setButtonAC(true))
-                    if (Number(props.inputsOutputs.start.value) >= 0) {
-                        props.inputsOutputsDispatch(errorInputStartAC(0))
+                    dispatch(displayAC('Enter correct values'))
+                    dispatch(errorAC(1))
+                    dispatch(errorInputMaxAC(1))
+                    dispatch(setButtonAC(true))
+                    if (Number(inputsOutput.start.value) >= 0) {
+                        dispatch(errorInputStartAC(0))
                     } else {
-                        props.inputsOutputsDispatch(errorInputStartAC(1))
+                        dispatch(errorInputStartAC(1))
                     }
                 } else {
-                    if (Number(event.currentTarget.value) <= Number(props.inputsOutputs.start.value)) {
-                        props.inputsOutputsDispatch(displayAC('Enter correct values'))
-                        props.inputsOutputsDispatch(errorAC(1))
-                        props.inputsOutputsDispatch(errorInputStartAC(1))
-                        props.inputsOutputsDispatch(errorInputMaxAC(1))
-                        props.buttonsDispatch(setButtonAC(true))
+                    if (Number(event.currentTarget.value) <= Number(inputsOutput.start.value)) {
+                        dispatch(displayAC('Enter correct values'))
+                        dispatch(errorAC(1))
+                        dispatch(errorInputStartAC(1))
+                        dispatch(errorInputMaxAC(1))
+                        dispatch(setButtonAC(true))
                     } else {
-                        props.buttonsDispatch(setButtonAC(false))
-                        props.inputsOutputsDispatch(errorInputMaxAC(0))
-                        if (Number(props.inputsOutputs.start.value) >= 0) {
-                            props.inputsOutputsDispatch(displayAC("Enter values & press 'SET'"))
-                            props.inputsOutputsDispatch(errorAC(0))
-                            props.inputsOutputsDispatch(errorInputStartAC(0))
+                        dispatch(setButtonAC(false))
+                        dispatch(errorInputMaxAC(0))
+                        if (Number(inputsOutput.start.value) >= 0) {
+                            dispatch(displayAC("Enter values & press 'SET'"))
+                            dispatch(errorAC(0))
+                            dispatch(errorInputStartAC(0))
                         } else {
-                            props.inputsOutputsDispatch(displayAC('Enter correct values'))
-                            props.inputsOutputsDispatch(errorAC(1))
-                            props.inputsOutputsDispatch(errorInputStartAC(1))
+                            dispatch(displayAC('Enter correct values'))
+                            dispatch(errorAC(1))
+                            dispatch(errorInputStartAC(1))
                         }
                     }
                 }
             }
         } else {
-            props.inputsOutputsDispatch(startValueAC(event.currentTarget.value))
-            props.buttonsDispatch(incButtonAC(true))
-            props.buttonsDispatch(resetButtonAC(true))
-
+            dispatch(startValueAC(event.currentTarget.value))
+            dispatch(incButtonAC(true))
+            dispatch(resetButtonAC(true))
             if (Number(event.currentTarget.value) < 0) {
-                props.inputsOutputsDispatch(displayAC('Enter correct values'))
-                props.inputsOutputsDispatch(errorAC(1))
-                props.inputsOutputsDispatch(errorInputStartAC(1))
-                props.buttonsDispatch(setButtonAC(true))
+                dispatch(displayAC('Enter correct values'))
+                dispatch(errorAC(1))
+                dispatch(errorInputStartAC(1))
+                dispatch(setButtonAC(true))
             } else {
-                if (Number(event.currentTarget.value) >= Number(props.inputsOutputs.max.value)) {
-                    props.inputsOutputsDispatch(displayAC('Enter correct values'))
-                    props.inputsOutputsDispatch(errorAC(1))
-                    props.inputsOutputsDispatch(errorInputStartAC(1))
-                    props.inputsOutputsDispatch(errorInputMaxAC(1))
-                    props.buttonsDispatch(setButtonAC(true))
+                if (Number(event.currentTarget.value) >= Number(inputsOutput.max.value)) {
+                    dispatch(displayAC('Enter correct values'))
+                    dispatch(errorAC(1))
+                    dispatch(errorInputStartAC(1))
+                    dispatch(errorInputMaxAC(1))
+                    dispatch(setButtonAC(true))
                 } else {
-                    props.inputsOutputsDispatch(displayAC("Enter values & press 'SET'"))
-                    props.inputsOutputsDispatch(errorAC(0))
-                    props.inputsOutputsDispatch(errorInputStartAC(0))
-                    props.inputsOutputsDispatch(errorInputMaxAC(0))
-                    props.buttonsDispatch(setButtonAC(false))
+                    dispatch(displayAC("Enter values & press 'SET'"))
+                    dispatch(errorAC(0))
+                    dispatch(errorInputStartAC(0))
+                    dispatch(errorInputMaxAC(0))
+                    dispatch(setButtonAC(false))
                 }
             }
-            if (event.currentTarget.value === '0' && props.inputsOutputs.max.value === '0') {
-                props.inputsOutputsDispatch(errorInputMaxAC(1))
-                props.inputsOutputsDispatch(errorInputStartAC(0))
+            if (event.currentTarget.value === '0' && inputsOutput.max.value === '0') {
+                dispatch(errorInputMaxAC(1))
+                dispatch(errorInputStartAC(0))
             }
         }
     }

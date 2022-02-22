@@ -9,3 +9,61 @@
     justify-content: space-evenly;
     align-items: center;
 }
+
+.upperBlock {
+    width: 90%;
+    height: 60%;
+    border: 3px solid;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.lowerBlock {
+    width: 90%;
+    height: 20%;
+    border: 2px solid;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.displayText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 27pt;
+    font-weight: normal;
+    color: aqua;
+}
+
+.displayTextError {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 27pt;
+    font-weight: normal;
+    color: red;
+}
+
+.displayNumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 170pt;
+    font-weight: bold;
+    color: aqua;
+}
+
+.displayNumberError {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 170pt;
+    font-weight: bold;
+    color: red;
+}

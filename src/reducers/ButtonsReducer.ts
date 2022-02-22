@@ -1,11 +1,15 @@
-
 import {buttonsType} from "../App";
 
-export const ButtonsReducer = (state: buttonsType, action: allButtonsType) => {
+let initialState: buttonsType = {
+    set: {title: 'SET', disable: true},
+    inc: {title: 'INC', disable: true},
+    reset: {title: 'RESET', disable: true}
+}
+
+export const ButtonsReducer = (state = initialState, action: allButtonsType) => {
     switch (action.type) {
         case 'SET-BUTTON-DISABLE': {
             let newState = {...state}
-            //newState.set = action.payload.set
             newState.set.disable = action.payload.disable
             return newState;
         }

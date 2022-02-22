@@ -1,6 +1,12 @@
-import {errorType, inputsOutputsType} from "../App";
+import {errorType, inputsOutputType} from "../App";
 
-export const InputsOutputsReducer = (state: inputsOutputsType, action: allInputOutputType) => {
+let initialState: inputsOutputType = {
+    start: {title: 'START VALUE:', value: '0', error: 0},
+    max: {title: 'MAX VALUE:', value: '0', error: 0},
+    display: {title: 'DISPLAY', value: "Enter values & press 'SET'", error: 0}
+}
+
+export const InputsOutputReducer = (state = initialState, action: allInputOutputType) => {
     switch (action.type) {
         case 'ONCHANGE-MAX-INPUT': {
             let newState = {...state};
