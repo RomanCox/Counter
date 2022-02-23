@@ -1,76 +1,40 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import style from './App.module.css';
-import {InputBlock} from "./inputOutputBlock/InputBlock";
-import {displayAC, errorAC, maxValueAC, startValueAC} from "./reducers/InputsOutputReducer";
+import s from './inputOutputBlock/InputOutputBlock.module.css';
+import {displayAC, errorAC} from "./reducers/InputsOutputReducer";
 import {incButtonAC, resetButtonAC, setButtonAC} from "./reducers/ButtonsReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./store/store";
-import {OutputBlock} from "./inputOutputBlock/OutputBlock";
+import {Input} from "./input/Input";
+import {Button} from "./button/Button";
 
-export type buttonTitleType = 'SET' | 'INC' | 'RESET'
-export type buttonType = {
-    title: buttonTitleType,
+export type ButtonTitleType = 'SET' | 'INC' | 'RESET'
+export type ButtonType = {
+    title: ButtonTitleType,
     disable: boolean
 }
-export type buttonsType = {
-    set: buttonType,
-    inc: buttonType,
-    reset: buttonType
+export type ButtonsType = {
+    set: ButtonType,
+    inc: ButtonType,
+    reset: ButtonType
 }
-export type errorType = 0 | 1 | 2 | 3;
-export type inputOutputType = {
+export type ErrorType = 0 | 1 | 2 | 3;
+export type InputOutputType = {
     title: string,
     value: string,
-    error: errorType
+    error: ErrorType
 }
-export type inputsOutputType = {
-    start: inputOutputType,
-    max: inputOutputType,
-    display: inputOutputType
+export type InputsOutputType = {
+    start: InputOutputType,
+    max: InputOutputType,
+    display: InputOutputType
 }
 
 export const App = () => {
 
     let dispatch = useDispatch();
-    let buttons = useSelector<rootReducerType, buttonsType>(state=>state.buttons)
-    let inputsOutput = useSelector<rootReducerType, inputsOutputType>(state=>state.InputsOutput)
-
-    useEffect(() => {
-        let newDisplay = sessionStorage.getItem('Display')
-        let errorAsString = sessionStorage.getItem('Error')
-        let startValueAsString = sessionStorage.getItem('Start')
-        let maxValueAsString = sessionStorage.getItem('Max')
-        let buttonSetDisableAsString = sessionStorage.getItem('Set')
-        let buttonIncDisableAsString = sessionStorage.getItem('Inc')
-        let buttonResetDisableAsString = sessionStorage.getItem('Reset')
-        if (
-            newDisplay &&
-            errorAsString &&
-            startValueAsString &&
-            maxValueAsString &&
-            buttonSetDisableAsString &&
-            buttonIncDisableAsString &&
-            buttonResetDisableAsString
-        ) {
-            dispatch(displayAC(newDisplay))
-            dispatch(errorAC(JSON.parse(errorAsString)))
-            dispatch(startValueAC(JSON.parse(startValueAsString)))
-            dispatch(maxValueAC(JSON.parse(maxValueAsString)))
-            dispatch(setButtonAC(JSON.parse(buttonSetDisableAsString)))
-            dispatch(incButtonAC(JSON.parse(buttonIncDisableAsString)))
-            dispatch(resetButtonAC(JSON.parse(buttonResetDisableAsString)))
-        }
-    }, [])
-
-    useEffect(() => {
-        sessionStorage.setItem('Display', inputsOutput.display.value)
-        sessionStorage.setItem('Error', JSON.stringify(inputsOutput.display.error))
-        sessionStorage.setItem('Start', JSON.stringify(inputsOutput.start.value))
-        sessionStorage.setItem('Max', JSON.stringify(inputsOutput.max.value))
-        sessionStorage.setItem('Set', JSON.stringify(buttons.set.disable))
-        sessionStorage.setItem('Inc', JSON.stringify(buttons.inc.disable))
-        sessionStorage.setItem('Reset', JSON.stringify(buttons.reset.disable))
-    }, [inputsOutput.display.value, inputsOutput.start.value, inputsOutput.max.value])
+    let buttons = useSelector<rootReducerType, ButtonsType>(state=>state.buttons)
+    let inputsOutput = useSelector<rootReducerType, InputsOutputType>(state=>state.inputsOutput)
 
     const onClickHandlerForSetButton = () => {
         dispatch(errorAC(2))
@@ -98,16 +62,53 @@ export const App = () => {
 
     return (
         <div className={style.appContainer}>
-            <InputBlock
-                onClickHandlerForSetButton={onClickHandlerForSetButton}
-                onClickHandlerForIncButton={onClickHandlerForIncButton}
-                onClickHandlerForResetButton={onClickHandlerForResetButton}
-            />
-            <OutputBlock
-                onClickHandlerForSetButton={onClickHandlerForSetButton}
-                onClickHandlerForIncButton={onClickHandlerForIncButton}
-                onClickHandlerForResetButton={onClickHandlerForResetButton}
-            />
+            {/*<InputBlock />
+            <OutputBlock />*/}
+            <div className={s.inputOutputBlock}>
+                <div className={s.upperBlock}>
+                    <Input
+                        title={inputsOutput.max.title}
+                        value={inputsOutput.max.value}
+                        errorInput={inputsOutput.max.error}
+                    />
+                    <Input
+                        title={inputsOutput.start.title}
+                        value={inputsOutput.start.value}
+                        errorInput={inputsOutput.start.error}
+                    />
+                </div>
+                <div className={s.lowerBlock}>
+                    <Button
+                        title={buttons.set.title}
+                        onClickHandler={onClickHandlerForSetButton}
+                        disable={buttons.set.disable}
+                    />
+                </div>
+            </div>
+
+            <div className={s.inputOutputBlock}>
+                <div className={s.upperBlock}>
+            <span className={inputsOutput.display.error === 0 ? `${s.displayText}` :
+                inputsOutput.display.error === 1 ? `${s.displayTextError}` :
+                    inputsOutput.display.error === 2 ? `${s.displayNumber}` :
+                        `${s.displayNumberError}`
+            }>
+                {inputsOutput.display.error < 2 ? inputsOutput.display.value : Number(inputsOutput.display.value)}
+            </span>
+                </div>
+                <div className={s.lowerBlock}>
+                    <Button
+                        title={buttons.inc.title}
+                        onClickHandler={onClickHandlerForIncButton}
+                        disable={buttons.inc.disable}
+                    />
+                    <Button
+                        title={buttons.reset.title}
+                        onClickHandler={onClickHandlerForResetButton}
+                        disable={buttons.reset.disable}
+                    />
+                </div>
+            </div>
         </div>
     )
 }

@@ -1,20 +1,35 @@
 import React from 'react';
 import style from './InputOutputBlock.module.css';
-import {buttonsType, inputsOutputType} from "../App";
-import {useSelector} from "react-redux";
+import {ButtonsType, InputsOutputType} from "../App";
+import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "../store/store";
 import {Button} from "../button/Button";
+import {incButtonAC, resetButtonAC} from "../reducers/ButtonsReducer";
+import {displayAC, errorAC} from "../reducers/InputsOutputReducer";
 
-type InputOutputBlockPropsType = {
-    onClickHandlerForSetButton: () => void,
-    onClickHandlerForIncButton: () => void,
-    onClickHandlerForResetButton: () => void,
-}
-
-export const OutputBlock = (props: InputOutputBlockPropsType) => {
-    let buttons = useSelector<rootReducerType, buttonsType>(state => state.buttons)
-    let inputsOutput = useSelector<rootReducerType, inputsOutputType>(state => state.InputsOutput)
+export const OutputBlock = () => {
+    let dispatch = useDispatch();
+    let buttons = useSelector<rootReducerType, ButtonsType>(state => state.buttons)
+    let inputsOutput = useSelector<rootReducerType, InputsOutputType>(state => state.inputsOutput)
     let displayNumber = Number(inputsOutput.display.value)
+
+    const onClickHandlerForIncButton = () => {
+        dispatch(resetButtonAC(false))
+        let displayNumber = Number(inputsOutput.display.value) + 1
+        dispatch(displayAC(String(displayNumber)))
+        if (displayNumber === Number(inputsOutput.max.value)) {
+            dispatch(errorAC(3))
+            dispatch(incButtonAC(true))
+        }
+    }
+
+    const onClickHandlerForResetButton = () => {
+        dispatch(displayAC(inputsOutput.start.value))
+        dispatch(errorAC(2))
+        dispatch(incButtonAC(false))
+        dispatch(resetButtonAC(true))
+    }
+
     return (
         <div className={style.inputOutputBlock}>
             <div className={style.upperBlock}>
@@ -26,20 +41,18 @@ export const OutputBlock = (props: InputOutputBlockPropsType) => {
                 {inputsOutput.display.error < 2 ? inputsOutput.display.value : displayNumber}
             </span>
             </div>
-
             <div className={style.lowerBlock}>
                 <Button
                     title={buttons.inc.title}
-                    onClickHandler={props.onClickHandlerForIncButton}
+                    onClickHandler={onClickHandlerForIncButton}
                     disable={buttons.inc.disable}
                 />
                 <Button
                     title={buttons.reset.title}
-                    onClickHandler={props.onClickHandlerForResetButton}
+                    onClickHandler={onClickHandlerForResetButton}
                     disable={buttons.reset.disable}
                 />
             </div>
-
         </div>
     )
 }

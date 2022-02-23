@@ -1,56 +1,59 @@
-import {errorType, inputsOutputType} from "../App";
+import {ErrorType, InputsOutputType} from "../App";
 
-let initialState: inputsOutputType = {
+let initialState: InputsOutputType = {
     start: {title: 'START VALUE:', value: '0', error: 0},
     max: {title: 'MAX VALUE:', value: '0', error: 0},
     display: {title: 'DISPLAY', value: "Enter values & press 'SET'", error: 0}
 }
 
-export const InputsOutputReducer = (state = initialState, action: allInputOutputType) => {
+type InitialStateType = typeof initialState
+
+export const InputsOutputReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case 'ONCHANGE-MAX-INPUT': {
-            let newState = {...state};
-            newState.max.value = action.payload.value;
-            return newState;
+            return {
+                ...state, max: {...state.max, value: action.payload.value}
+            }
         }
         case 'ONCHANGE-START-INPUT': {
-            let newState = {...state};
-            newState.start.value = action.payload.value;
-            return newState;
+            return {
+                ...state, start: {...state.start, value: action.payload.value}
+            }
         }
         case 'ERROR-INPUT-MAX': {
-            let newState = {...state};
-            newState.max.error = action.payload.error;
-            return newState;
+            return {
+                ...state, max: {...state.max, error: action.payload.error}
+            }
         }
         case 'ERROR-INPUT-START': {
-            let newState = {...state};
-            newState.start.error = action.payload.error;
-            return newState;
+            return {
+                ...state, start: {...state.start, error: action.payload.error}
+            }
         }
         case 'DISPLAY': {
-            let newState = {...state};
-            newState.display.value = action.payload.value;
-            return newState;
+            return {
+                ...state, display: {...state.display, value: action.payload.value}
+            }
         }
         case 'ERROR': {
-            let newState = {...state};
-            newState.display.error = action.payload.error;
-            return newState;
+            return {
+                ...state, display: {...state.display, error: action.payload.error}
+            }
         }
-        default: return state;
+        default:
+            return state;
     }
 };
 
-type allInputOutputType =
-    maxValueACType |
-    startValueACType |
-    errorInputStartACType |
-    errorInputMaxACType |
-    displayACType |
-    errorACType;
+type ActionType =
+    maxValueActionType |
+    startValueActionType |
+    displayActionType |
+    errorInputStartActionType |
+    errorInputMaxActionType |
+    errorActionType;
 
-export type maxValueACType = ReturnType<typeof maxValueAC>;
+export type maxValueActionType = ReturnType<typeof maxValueAC>;
 
 export const maxValueAC = (value: string) => {
     return {
@@ -61,7 +64,7 @@ export const maxValueAC = (value: string) => {
     }
 };
 
-export type startValueACType = ReturnType<typeof startValueAC>;
+export type startValueActionType = ReturnType<typeof startValueAC>;
 
 export const startValueAC = (value: string) => {
     return {
@@ -72,29 +75,7 @@ export const startValueAC = (value: string) => {
     }
 };
 
-export type errorInputStartACType = ReturnType<typeof errorInputStartAC>;
-
-export const errorInputStartAC = (error: errorType) => {
-    return {
-        type: 'ERROR-INPUT-START' as const,
-        payload: {
-            error
-        }
-    }
-};
-
-export type errorInputMaxACType = ReturnType<typeof errorInputMaxAC>;
-
-export const errorInputMaxAC = (error: errorType) => {
-    return {
-        type: 'ERROR-INPUT-MAX' as const,
-        payload: {
-            error
-        }
-    }
-};
-
-export type displayACType = ReturnType<typeof displayAC>;
+export type displayActionType = ReturnType<typeof displayAC>;
 
 export const displayAC = (value: string) => {
     return {
@@ -105,9 +86,31 @@ export const displayAC = (value: string) => {
     }
 };
 
-export type errorACType = ReturnType<typeof errorAC>;
+export type errorInputStartActionType = ReturnType<typeof errorInputStartAC>;
 
-export const errorAC = (error: errorType) => {
+export const errorInputStartAC = (error: ErrorType) => {
+    return {
+        type: 'ERROR-INPUT-START' as const,
+        payload: {
+            error
+        }
+    }
+};
+
+export type errorInputMaxActionType = ReturnType<typeof errorInputMaxAC>;
+
+export const errorInputMaxAC = (error: ErrorType) => {
+    return {
+        type: 'ERROR-INPUT-MAX' as const,
+        payload: {
+            error
+        }
+    }
+};
+
+export type errorActionType = ReturnType<typeof errorAC>;
+
+export const errorAC = (error: ErrorType) => {
     return {
         type: 'ERROR' as const,
         payload: {

@@ -1,35 +1,36 @@
-import {buttonsType} from "../App";
+import {ButtonsType} from "../App";
 
-let initialState: buttonsType = {
+let initialState: ButtonsType = {
     set: {title: 'SET', disable: true},
     inc: {title: 'INC', disable: true},
     reset: {title: 'RESET', disable: true}
 }
 
-export const ButtonsReducer = (state = initialState, action: allButtonsType) => {
+type InitialStateType = typeof initialState
+
+export const ButtonsReducer = (state:InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case 'SET-BUTTON-DISABLE': {
-            let newState = {...state}
-            newState.set.disable = action.payload.disable
-            return newState;
-        }
+        case 'SET-BUTTON-DISABLE':
+            return {
+                ...state, set: {...state.set, disable: action.payload.disable}
+            }
         case 'INC-BUTTON-DISABLE': {
-            let newState = {...state}
-            newState.inc.disable = action.payload.disable
-            return newState;
+            return {
+                ...state, inc: {...state.inc, disable: action.payload.disable}
+            }
         }
         case 'RESET-BUTTON-DISABLE': {
-            let newState = {...state}
-            newState.reset.disable = action.payload.disable
-            return newState;
+            return {
+                ...state, reset: {...state.reset, disable: action.payload.disable}
+            }
         }
         default: return state;
     }
 };
 
-type allButtonsType = setButtonACType | incButtonCType | resetButtonACType
+type ActionType = SetButtonActionType | IncButtonActionType | ResetButtonActionType
 
-export type setButtonACType = ReturnType<typeof setButtonAC>
+export type SetButtonActionType = ReturnType<typeof setButtonAC>
 
 export const setButtonAC = (disable: boolean) => {
     return {
@@ -37,10 +38,10 @@ export const setButtonAC = (disable: boolean) => {
         payload: {
             disable
         }
-    };
+    }
 };
 
-export type incButtonCType = ReturnType<typeof incButtonAC>
+export type IncButtonActionType = ReturnType<typeof incButtonAC>
 
 export const incButtonAC = (disable: boolean) => {
     return {
@@ -48,10 +49,10 @@ export const incButtonAC = (disable: boolean) => {
         payload: {
             disable
         }
-    };
+    }
 };
 
-export type resetButtonACType = ReturnType<typeof resetButtonAC>
+export type ResetButtonActionType = ReturnType<typeof resetButtonAC>
 
 export const resetButtonAC = (disable: boolean) => {
     return {
@@ -59,5 +60,8 @@ export const resetButtonAC = (disable: boolean) => {
         payload: {
             disable
         }
-    };
+    }
 };
+
+//THUNK
+
