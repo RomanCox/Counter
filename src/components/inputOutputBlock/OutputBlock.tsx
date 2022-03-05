@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './InputOutputBlock.module.css';
-import {ButtonsType, InputsOutputType} from "../App";
+import {ButtonsType, InputsOutputType} from "../../app/App";
 import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "../store/store";
+import {rootReducerType} from "../../redux/store/store";
 import {Button} from "../button/Button";
-import {incButtonAC, resetButtonAC} from "../reducers/ButtonsReducer";
-import {displayAC, errorAC} from "../reducers/InputsOutputReducer";
+import {incButtonAC, resetButtonAC} from "../../redux/reducers/ButtonsReducer";
+import {displayAC, errorAC} from "../../redux/reducers/InputsOutputReducer";
 
 export const OutputBlock = () => {
     let dispatch = useDispatch();

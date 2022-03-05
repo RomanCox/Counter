@@ -1,30 +1,18 @@
 import React, {ChangeEvent} from 'react';
 import style from './Input.module.css';
-import {InputsOutputType} from "../App";
-import {incButtonAC, resetButtonAC, setButtonAC} from "../reducers/ButtonsReducer";
-import {
-    displayAC,
-    errorAC,
-    errorInputMaxAC,
-    errorInputStartAC,
-    maxValueAC,
-    startValueAC
-} from "../reducers/InputsOutputReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "../store/store";
 
 type InputPropsType = {
     title: string,
     value: string,
     errorInput: number,
+    changeInputValue: (value: string) => void,
 }
 
 export const Input = (props: InputPropsType) => {
-    let dispatch = useDispatch();
-    let inputsOutput = useSelector<rootReducerType, InputsOutputType>(state => state.inputsOutput)
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        props.changeInputValue(event.currentTarget.value)
 
-        if (props.title === inputsOutput.max.title) {
+        /*if (props.title === inputsOutput.max.title) {
             dispatch(maxValueAC(event.currentTarget.value))
             dispatch(incButtonAC(true))
             dispatch(resetButtonAC(true))
@@ -56,6 +44,7 @@ export const Input = (props: InputPropsType) => {
                 }
             }
         } else {
+            console.log(inputsOutput.max.value, inputsOutput.start.value)
             dispatch(startValueAC(event.currentTarget.value))
             dispatch(incButtonAC(true))
             dispatch(resetButtonAC(true))
@@ -90,12 +79,7 @@ export const Input = (props: InputPropsType) => {
                     }
                 }
             }
-
-            /*if (event.currentTarget.value === '0' && inputsOutput.max.value === '0') {
-                dispatch(errorInputMaxAC(1))
-                dispatch(errorInputStartAC(0))
-            }*/
-        }
+        }*/
     }
 
     return (

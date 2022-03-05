@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './Button.module.css'
-import {ButtonTitleType} from "../App";
+import {ButtonTitleType} from "../../app/App";
 
 type ButtonPropsType = {
     title: ButtonTitleType,

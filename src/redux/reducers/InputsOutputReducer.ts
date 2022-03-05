@@ -1,4 +1,4 @@
-import {ErrorType, InputsOutputType} from "../App";
+import {ErrorType, InputsOutputType} from "../../app/App";
 
 let initialState: InputsOutputType = {
     start: {title: 'START VALUE:', value: '0', error: 0},

@@ -1,4 +1,4 @@
-import {ButtonsType} from "../App";
+import {ButtonsType} from "../../app/App";
 
 let initialState: ButtonsType = {
     set: {title: 'SET', disable: true},

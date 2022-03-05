@@ -1,12 +1,7 @@
 import React from 'react';
 import style from './App.module.css';
-import s from './inputOutputBlock/InputOutputBlock.module.css';
-import {displayAC, errorAC} from "./reducers/InputsOutputReducer";
-import {incButtonAC, resetButtonAC, setButtonAC} from "./reducers/ButtonsReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "./store/store";
-import {Input} from "./input/Input";
-import {Button} from "./button/Button";
+import {InputBlock} from "../components/inputOutputBlock/InputBlock";
+import {OutputBlock} from "../components/inputOutputBlock/OutputBlock";
 
 export type ButtonTitleType = 'SET' | 'INC' | 'RESET'
 export type ButtonType = {
@@ -31,10 +26,10 @@ export type InputsOutputType = {
 }
 
 export const App = () => {
-
-    let dispatch = useDispatch();
-    let buttons = useSelector<rootReducerType, ButtonsType>(state=>state.buttons)
-    let inputsOutput = useSelector<rootReducerType, InputsOutputType>(state=>state.inputsOutput)
+    /*const isSome = inputsOutput.display.error === 0 ? `${s.displayText}` :
+        inputsOutput.display.error === 1 ? `${s.displayTextError}` :
+            inputsOutput.display.error === 2 ? `${s.displayNumber}` :
+                `${s.displayNumberError}`
 
     const onClickHandlerForSetButton = () => {
         dispatch(errorAC(2))
@@ -58,13 +53,13 @@ export const App = () => {
         dispatch(errorAC(2))
         dispatch(incButtonAC(false))
         dispatch(resetButtonAC(true))
-    }
+    }*/
 
     return (
         <div className={style.appContainer}>
-            {/*<InputBlock />
-            <OutputBlock />*/}
-            <div className={s.inputOutputBlock}>
+            <InputBlock />
+            <OutputBlock />
+            {/*<div className={s.inputOutputBlock}>
                 <div className={s.upperBlock}>
                     <Input
                         title={inputsOutput.max.title}
@@ -88,11 +83,7 @@ export const App = () => {
 
             <div className={s.inputOutputBlock}>
                 <div className={s.upperBlock}>
-            <span className={inputsOutput.display.error === 0 ? `${s.displayText}` :
-                inputsOutput.display.error === 1 ? `${s.displayTextError}` :
-                    inputsOutput.display.error === 2 ? `${s.displayNumber}` :
-                        `${s.displayNumberError}`
-            }>
+            <span className={isSome}>
                 {inputsOutput.display.error < 2 ? inputsOutput.display.value : Number(inputsOutput.display.value)}
             </span>
                 </div>
@@ -108,7 +99,7 @@ export const App = () => {
                         disable={buttons.reset.disable}
                     />
                 </div>
-            </div>
+            </div>*/}
         </div>
     )
 }
